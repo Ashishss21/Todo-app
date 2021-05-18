@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Container } from "react-bootstrap";
 import db from "../firebase";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -9,14 +9,11 @@ import { FormControlLabel } from "@material-ui/core";
 
 function Todo(props) {
 
-  const text = "Completed"
-  const [toggle, setToggle] = useState(false);
-
   return (
     <>
       <Container>
         <div className="list-group">
-          <a className="list-group-item list-group-item-action flex-column align-items-start">
+          <a href="#" className="list-group-item list-group-item-action flex-column align-items-start">
             <div className="d-flex w-100 justify-content-between">
               <h4 className="mb-1">{props.todo.todo}</h4>
               <div className="icons">
