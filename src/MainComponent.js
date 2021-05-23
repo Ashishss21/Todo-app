@@ -49,7 +49,13 @@ function Main() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState();
-  const [todos, setTodos] = useState([]); // const [input, setInput] = useState("");
+  const [desc, setDesc] = useState();
+  const [todos, setTodos] = useState([]);
+  
+  var date = new Date();
+  var formatedDate = `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`
+
+  // const [input, setInput] = useState("");
 
   //when the app koads, we need to listen to the database and fetch new todos as the get added/removed
   useEffect(() => {
@@ -58,7 +64,11 @@ function Main() {
       .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) => {
         setTodos(
-          snapshot.docs.map((doc) => ({ id: doc.id, todo: doc.data().todo }))
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            todo: doc.data().todo,
+            desc: doc.data().disc,
+          }))
         );
       });
   }, []);
@@ -68,9 +78,11 @@ function Main() {
     event.preventDefault(); //will stop the REFRESH
     db.collection("todos").add({
       todo: input,
+      disc: desc,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
     setInput(""); //clear up the input after clicking add todo button
+    setDesc("");
   };
 
   const handleClickOpen = () => {
@@ -114,6 +126,26 @@ function Main() {
                   className={classes.input}
                 />
                 <br />
+                <br />
+                <TextField
+                  id="double"
+                  label="Description"
+                  placeholder="Type Your Discription"
+                  value={desc}
+                  onChange={(event) => setDesc(event.target.value)}
+                  className={classes.input}
+                />
+                <br />
+                <br />
+                <TextField
+                  id="date"
+                  label="Deadline"
+                  type="date"
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                /><br/>
                 <Button
                   className={classes.submit}
                   type="submit"
@@ -131,7 +163,7 @@ function Main() {
 
       {todos.map((todo) => (
         <Container>
-          <Todo todo={todo} />
+          <Todo todo={todo} desc={desc} />
         </Container>
       ))}
 
