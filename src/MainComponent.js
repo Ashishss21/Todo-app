@@ -52,8 +52,6 @@ function Main() {
   const [desc, setDesc] = useState();
   const [todos, setTodos] = useState([]);
   
-  var date = new Date();
-  var formatedDate = `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`
 
   // const [input, setInput] = useState("");
 
